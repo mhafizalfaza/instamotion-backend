@@ -1,0 +1,89 @@
+service: instamotion-backend
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  environment:
+    NODE_ENV: dev
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+package:
+  exclude:
+    - config/.env.stg
+    - config/.env.pro
+  include:
+    - config/.env.dev
+
+functions:
+  createDealer:
+    handler: app/handler/dealers.create
+    events:
+      - http:
+          path: dealers
+          method: post
+  updateDealer:
+    handler: app/handler/dealers.update
+    events:
+      - http:
+          path: dealers/{id}
+          method: put
+  findDealers:
+    handler: app/handler/dealers.find
+    events:
+      - http:
+          path: dealers
+          method: get
+  findDealer:
+    handler: app/handler/dealers.findOne
+    events:
+      - http:
+          path: dealers/{id}
+          method: get
+
+  deleteDealer:
+    handler: app/handler/dealers.deleteOne
+    events:
+      - http:
+          path: dealers/{id}
+          method: delete
+
+  createVehicle:
+    handler: app/handler/vehicles.create
+    events:
+      - http:
+          path: vehicles
+          method: post
+  updateVehicle:
+    handler: app/handler/vehicles.update
+    events:
+      - http:
+          path: vehicles/{id}
+          method: put
+  findVehicles:
+    handler: app/handler/vehicles.find
+    events:
+      - http:
+          path: vehicles
+          method: get
+  findVehicle:
+    handler: app/handler/vehicles.findOne
+    events:
+      - http:
+          path: vehicles/{id}
+          method: get
+
+  deleteVehicle:
+    handler: app/handler/vehicles.deleteOne
+    events:
+      - http:
+          path: vehicles/{id}
+          method: delete
+  findVehiclesByDealerId:
+    handler: app/handler/vehicles.findByDealerId
+    events:
+      - http:
+          path: vehiclesByDealerId/{id}
+          method: get
